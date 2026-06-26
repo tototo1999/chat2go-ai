@@ -2122,13 +2122,14 @@
 
     // ★ 全部账号统一进同一个默认房 ★
     // 非房主进来先自助加入默认房（RLS「小白可自助加入房间」允许），已是成员则跳过、不覆盖角色
+    const _targetRoom = (new URLSearchParams(window.location.search).get('room')) || DEFAULT_ROOM_ID
     if (currentRole !== 'expert') {
       try {
         const { data: mem } = await sb.from('room_members')
-          .select('room_id').eq('room_id', DEFAULT_ROOM_ID).eq('user_id', currentUser.id).maybeSingle()
+          .select('room_id').eq('room_id', _targetRoom).eq('user_id', currentUser.id).maybeSingle()
         if (!mem) {
           const { error: je } = await sb.from('room_members')
-            .insert({ room_id: DEFAULT_ROOM_ID, user_id: currentUser.id })
+            .insert({ room_id: _targetRoom, user_id: currentUser.id })
           if (je) console.warn('[default-room join]', je)
         }
       } catch (e) { console.warn('[default-room join]', e) }
