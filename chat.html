@@ -4247,10 +4247,15 @@
 
   // ── @ 提及功能 ──
   function getMentionCandidates() {
+    const BACKEND_BOT_UID = 'adc1898d-aa2e-47d3-add8-cc63020f3f43'
     const aiName = aiDisplayName()
     const list = [{ name: aiName, kind: 'ai', initial: 'AI' }]
+    // 后台ai大哥：紧挨 AI 助手，作为独立 AI 显示（头像「后」），不混进小白列表
+    if (profilesByUid[BACKEND_BOT_UID]) {
+      list.push({ name: profilesByUid[BACKEND_BOT_UID], kind: 'ai', initial: '后' })
+    }
     Object.entries(profilesByUid).forEach(([uid, name]) => {
-      if (uid === currentUser?.id || !name) return
+      if (uid === currentUser?.id || !name || uid === BACKEND_BOT_UID) return
       const isExp = uid === currentRoom?.expert_id
       list.push({ name, kind: isExp ? 'expert' : 'user', initial: isExp ? 'OG' : '白' })
     })
