@@ -3833,10 +3833,13 @@
     // 防止前端 currentRoom 数据 stale(trigger 在 DB 端锁了 focal 但前端没刷)误标头像
     const isFocal = msg.user_id && currentRoom?.focal_user_id && msg.user_id === currentRoom.focal_user_id
     const displayRole = (role === 'user' && currentRoom?.focal_user_id && !isFocal) ? 'audience' : role
-    const aiName = aiDisplayName()
+    // 后台ai大哥（能动后台的助手）= 固定 user_id，单独显示名/头像，跟普通 AI 助手区分
+    const BACKEND_BOT_UID = 'adc1898d-aa2e-47d3-add8-cc63020f3f43'
+    const isBackendBot = role === 'ai' && msg.user_id === BACKEND_BOT_UID
+    const aiName = isBackendBot ? '后台ai大哥' : aiDisplayName()
     const roleLabels = { user: '小白', audience: '路人', expert: 'OG', ai: aiName }
     const roleLabel = roleLabels[displayRole] || displayRole
-    const avText = displayRole === 'ai' ? 'AI' : displayRole === 'expert' ? 'OG' : displayRole === 'audience' ? '路' : '白'
+    const avText = isBackendBot ? '后' : displayRole === 'ai' ? 'AI' : displayRole === 'expert' ? 'OG' : displayRole === 'audience' ? '路' : '白'
     // 头像点击：AI 头像(仅OG)→编辑 AI 名；自己头像(非 AI)→进设置；其它头像不可点
     let avClick = ''
     if (role === 'ai' && isExpert(currentRoom)) {
