@@ -1670,8 +1670,11 @@
       font-family: ui-monospace, SFMono-Regular, monospace;
       font-size: 11px;
     }
-    .md-body pre { background: #1a1a18; border-radius: 6px; padding: 6px 9px; overflow-x: auto; margin: 0.3rem 0; }
-    .md-body pre code { background: none; color: #e8e6e0; font-size: 11px; }
+    .md-body pre { position: relative; background: #1a1a18; border-radius: 6px; padding: 28px 10px 9px; margin: 0.3rem 0; white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; }
+    .md-body pre code { background: none; color: #e8e6e0; font-size: 11px; white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; }
+    .code-copy { position: absolute; top: 5px; right: 6px; font-size: 11px; line-height: 1; padding: 4px 10px; border-radius: 5px; border: none; background: #3a3a36; color: #e8e6e0; cursor: pointer; opacity: .85; }
+    .code-copy:hover { opacity: 1; background: #4a4a45; }
+    .code-copy.done { background: #0f766e; color: #fff; opacity: 1; }
     .md-body blockquote {
       border-left: 2px solid var(--teal-100);
       padding: 1px 8px;
@@ -4785,8 +4788,33 @@
       console.warn('[safeMarkdown] marked failed', e)
       return escHtml(content || '')
     }
-    return window.DOMPurify ? DOMPurify.sanitize(html) : html
+    html = window.DOMPurify ? DOMPurify.sanitize(html) : html
+    // 给代码块加「复制」按钮（消毒之后注入，不会被 DOMPurify 删掉；无内联 JS，靠全局委托监听）
+    html = html.replace(/<pre>/g, '<pre><button class="code-copy" type="button">复制</button>')
+    return html
   }
+
+  // 代码块「复制」按钮：复制 <pre> 里的命令（兼容当前 http：navigator.clipboard 不可用时用 execCommand 兜底）
+  function _fallbackCopy(text, done, fail) {
+    try {
+      const ta = document.createElement('textarea'); ta.value = text
+      ta.style.position = 'fixed'; ta.style.left = '-9999px'; document.body.appendChild(ta)
+      ta.focus(); ta.select(); const ok = document.execCommand('copy'); document.body.removeChild(ta)
+      ok ? done() : fail()
+    } catch (e) { fail() }
+  }
+  document.addEventListener('click', function (e) {
+    const btn = e.target.closest && e.target.closest('.code-copy')
+    if (!btn) return
+    const pre = btn.closest('pre'); if (!pre) return
+    const codeEl = pre.querySelector('code')
+    const text = (codeEl ? codeEl.innerText : pre.innerText.replace(/^\s*复制\s*/, ''))
+    const done = () => { btn.textContent = '已复制 ✓'; btn.classList.add('done'); setTimeout(() => { btn.textContent = '复制'; btn.classList.remove('done') }, 1500) }
+    const fail = () => { btn.textContent = '复制失败'; setTimeout(() => { btn.textContent = '复制' }, 1500) }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(() => _fallbackCopy(text, done, fail))
+    } else { _fallbackCopy(text, done, fail) }
+  })
 
   function formatTime(iso) {
     const d = new Date(iso)
