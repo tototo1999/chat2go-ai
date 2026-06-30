@@ -79,6 +79,18 @@ h1 .hl::after{content:"";position:absolute;left:-2%;right:-2%;bottom:.1em;height
 footer{text-align:center;padding:0 22px 56px;color:var(--ink3);font-size:12px;line-height:1.9;font-weight:300}
 footer .fr{width:30px;height:2px;background:var(--line);margin:0 auto 20px}
 footer b{color:var(--ink2);font-weight:500}
+
+/* ---- 作品墙 showcase ---- */
+.wallsub{text-align:center;font-size:14px;color:var(--ink2);font-weight:300;margin:-6px 4px 22px;line-height:1.7}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.work{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:transform .26s cubic-bezier(.2,.8,.2,1),box-shadow .26s;cursor:pointer}
+.work:hover{transform:translateY(-5px);box-shadow:0 16px 34px -18px rgba(20,70,58,.38)}
+.work .thumb{height:124px;display:flex;align-items:center;justify-content:center;font-size:46px;position:relative}
+.work .thumb::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(0,0,0,.04))}
+.work .meta{padding:13px 15px 15px}
+.work .wtitle{font-family:var(--serif);font-weight:700;font-size:15.5px;letter-spacing:-.2px;margin-bottom:9px;color:var(--ink)}
+.work .wfam{font-size:11.5px;display:inline-flex;align-items:center;gap:5px;background:var(--teal-soft);border:1px solid var(--teal-line);color:#155C47;border-radius:14px;padding:3px 10px}
+.work.seed{border-style:dashed;border-color:var(--teal-line);background:transparent;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--ink3);font-size:13px;line-height:1.7;min-height:182px}
 </style>
 </head>
 <body>
@@ -134,6 +146,16 @@ footer b{color:var(--ink2);font-weight:500}
       <div class="ob">敬请期待</div>
     </div>
 
+  </div>
+
+  <div class="label"><span>🖼️ 作品墙</span></div>
+  <p class="wallsub">各家在乐园里、跟 AI 一起做出来的东西,都摆上这面墙 —— 互相看得到、玩得到。</p>
+  <div class="gallery">
+    <div class="work"><div class="thumb" style="background:#eef4ec">🎮</div><div class="meta"><div class="wtitle">涛涛的小游戏</div><span class="wfam">🏡 大米家 · 涛涛</span></div></div>
+    <div class="work"><div class="thumb" style="background:#fdeee9">📇</div><div class="meta"><div class="wtitle">英语单词卡</div><span class="wfam">🏡 大米家 · Lexi</span></div></div>
+    <div class="work"><div class="thumb" style="background:#f3eee0">🖼️</div><div class="meta"><div class="wtitle">全家照片美术馆</div><span class="wfam">🏡 大米家 · 清清</span></div></div>
+    <div class="work"><div class="thumb" style="background:#e9f0f4">🧮</div><div class="meta"><div class="wtitle">口算闯关</div><span class="wfam">🏡 大米家 · okli</span></div></div>
+    <div class="work seed">Sam 家、Ricky 家<br>刚开张,作品<br>陆续上墙 ✨</div>
   </div>
 </div>
 
