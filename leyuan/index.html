@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Coding 乐园 · 一家一座</title>
+<meta name="description" content="给一家人的私有 Coding 乐园门户。家人免密进门,一起聊天、一起让 AI 写东西。一家一座,各自隔离。">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#1D7A5F; --teal-d:#14463a; --teal-soft:#eef4ec; --teal-line:#d6e7d0;
+  --ink:#1E2422; --ink2:#56635E; --ink3:#9aa3a0;
+  --paper:#FAF8F3; --card:#fff; --line:#EAE7DE; --warm:#C8634A; --gold:#C79A3A;
+  --serif:'Noto Serif SC',serif; --sans:'Noto Sans SC',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);
+  background-image:radial-gradient(circle at 12% 8%,rgba(29,122,95,.05),transparent 42%),radial-gradient(circle at 88% 0%,rgba(200,99,74,.04),transparent 40%);
+  background-attachment:fixed;-webkit-font-smoothing:antialiased}
+
+/* ---- header ---- */
+header{padding:64px 22px 30px;text-align:center;position:relative;overflow:hidden}
+.eyebrow{font-family:var(--serif);font-weight:700;font-size:12.5px;letter-spacing:.32em;color:var(--teal);
+  text-transform:uppercase;margin-bottom:18px;opacity:.85}
+h1{font-family:var(--serif);font-weight:900;font-size:clamp(34px,7vw,56px);line-height:1.08;letter-spacing:-.5px}
+h1 .hl{color:var(--teal);position:relative;white-space:nowrap}
+h1 .hl::after{content:"";position:absolute;left:-2%;right:-2%;bottom:.1em;height:.26em;
+  background:linear-gradient(90deg,rgba(29,122,95,.18),rgba(29,122,95,.32));border-radius:3px;z-index:-1}
+.sub{max-width:540px;margin:22px auto 0;font-size:15.5px;line-height:1.8;color:var(--ink2);font-weight:300}
+.sub b{color:var(--ink);font-weight:500}
+.rule{width:46px;height:3px;background:var(--teal);border-radius:3px;margin:30px auto 0;opacity:.5}
+
+/* ---- grid ---- */
+.wrap{max-width:980px;margin:0 auto;padding:8px 22px 80px}
+.label{font-family:var(--serif);font-weight:700;font-size:14px;color:var(--ink2);
+  display:flex;align-items:center;gap:10px;margin:42px 4px 18px}
+.label::before,.label::after{content:"";height:1px;background:var(--line);flex:1}
+.label span{flex:0 0 auto;color:var(--teal)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+
+.home{position:relative;background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:26px 24px 22px;text-decoration:none;color:inherit;display:block;overflow:hidden;
+  transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s,border-color .28s}
+.home .roof{position:absolute;top:0;left:0;right:0;height:5px;background:var(--teal)}
+.home .door{font-size:34px;line-height:1;margin-bottom:16px;display:inline-block}
+.home h3{font-family:var(--serif);font-weight:900;font-size:21px;letter-spacing:-.2px;margin-bottom:7px}
+.home .desc{font-size:13px;color:var(--ink2);font-weight:300;line-height:1.65;min-height:42px}
+.home .foot{margin-top:18px;display:flex;align-items:center;justify-content:space-between}
+.chip{font-size:11.5px;font-weight:500;border-radius:20px;padding:4px 12px;display:inline-flex;align-items:center;gap:6px}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.chip.live{background:var(--teal-soft);color:#155C47;border:1px solid var(--teal-line)}
+.chip.live .dot{background:#2faa6e;box-shadow:0 0 0 0 rgba(47,170,110,.5);animation:pulse 2.2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(47,170,110,.5)}70%{box-shadow:0 0 0 7px rgba(47,170,110,0)}100%{box-shadow:0 0 0 0 rgba(47,170,110,0)}}
+.chip.soon{background:#f4f1ea;color:#9b8e72;border:1px solid #e8e2d4}
+.chip.soon .dot{background:#cdbf9c}
+.enter{font-family:var(--serif);font-weight:700;font-size:13.5px;color:var(--teal);display:inline-flex;align-items:center;gap:6px}
+.enter .arr{transition:transform .25s}
+
+/* live card */
+.home.live{border-color:var(--teal-line)}
+.home.live:hover{transform:translateY(-5px);box-shadow:0 18px 38px -18px rgba(20,70,58,.4);border-color:var(--teal)}
+.home.live:hover .enter .arr{transform:translateX(4px)}
+
+/* soon card */
+.home.soon{cursor:default;background:#fbfaf6}
+.home.soon .roof{background:#e2dcce}
+.home.soon h3{color:var(--ink3)}
+.home.soon .door{filter:grayscale(.7);opacity:.5}
+
+/* open-a-home card */
+.open{border:1.5px dashed var(--teal-line);border-radius:18px;background:transparent;
+  padding:26px 24px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:8px;min-height:170px}
+.open .plus{font-size:30px;color:var(--teal);opacity:.7;line-height:1}
+.open .ot{font-family:var(--serif);font-weight:700;font-size:16px;color:var(--ink2)}
+.open .od{font-size:12px;color:var(--ink3);font-weight:300;line-height:1.6;max-width:210px}
+.open .ob{margin-top:6px;font-size:11px;font-weight:500;color:#9b8e72;background:#f4f1ea;border:1px solid #e8e2d4;border-radius:20px;padding:3px 11px}
+
+footer{text-align:center;padding:0 22px 56px;color:var(--ink3);font-size:12px;line-height:1.9;font-weight:300}
+footer .fr{width:30px;height:2px;background:var(--line);margin:0 auto 20px}
+footer b{color:var(--ink2);font-weight:500}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">CODING · 乐园</div>
+  <h1>一家人的<br><span class="hl">Coding 乐园</span></h1>
+  <p class="sub">家人点开自己的链接,<b>免密进门</b>——一起聊天、一起让 AI 写东西、把做出来的东西摆上墙。<b>一家一座,各自隔离</b>,在里面怎么玩都坏不了别人。</p>
+  <div class="rule"></div>
+</header>
+
+<div class="wrap">
+  <div class="label"><span>🏡 这些人家</span></div>
+  <div class="grid">
+
+    <a class="home live" href="https://dami.chat2go.ai">
+      <div class="roof"></div>
+      <span class="door">🏡</span>
+      <h3>大米家的 Coding 乐园</h3>
+      <div class="desc">大米的一家:涛涛、Lexi、okli、清清……一起在这儿玩、一起写东西。</div>
+      <div class="foot">
+        <span class="chip live"><span class="dot"></span>在营 · 已开张</span>
+        <span class="enter">进门 <span class="arr">→</span></span>
+      </div>
+    </a>
+
+    <div class="home soon">
+      <div class="roof"></div>
+      <span class="door">🏡</span>
+      <h3>Sam 家的 Coding 乐园</h3>
+      <div class="desc">Sam 的一家。乐园正在搭,很快就能进门。</div>
+      <div class="foot">
+        <span class="chip soon"><span class="dot"></span>即将开张</span>
+      </div>
+    </div>
+
+    <div class="home soon">
+      <div class="roof"></div>
+      <span class="door">🏡</span>
+      <h3>Ricky 家的 Coding 乐园</h3>
+      <div class="desc">Ricky 的一家。乐园正在搭,很快就能进门。</div>
+      <div class="foot">
+        <span class="chip soon"><span class="dot"></span>即将开张</span>
+      </div>
+    </div>
+
+    <div class="open">
+      <span class="plus">＋</span>
+      <div class="ot">开你家的一座</div>
+      <div class="od">凭一张邀请码,就能给自己一家开一座独立的乐园。</div>
+      <div class="ob">敬请期待</div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="fr"></div>
+  <b>Coding 乐园</b> · 一家一座,各自隔离<br>
+  给家人的私有 AI 写代码乐园 · 免密进门 · 在里面随便折腾也坏不了外面
+</footer>
+
+</body>
+</html>
