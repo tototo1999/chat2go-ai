@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>大米家的 Coding 乐园</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&family=Noto+Sans+SC:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#14463a,#1D7A5F);color:#fff;font-family:'Noto Sans SC',sans-serif;text-align:center;padding:24px}
+.b{max-width:360px}
+.e{font-size:60px;margin-bottom:6px}
+h1{font-family:'Noto Serif SC',serif;font-size:26px;letter-spacing:-.5px}
+.d{font-size:14.5px;color:rgba(255,255,255,.85);line-height:1.8;margin-top:14px}
+.d b{color:#fff}
+.go{margin-top:10px;font-size:14px;color:rgba(255,255,255,.9)}
+.sp{margin-top:22px;font-size:13px;color:rgba(255,255,255,.6)}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#5fc6a4;animation:p 1s infinite}
+@keyframes p{50%{opacity:.3}}
+</style>
+</head>
+<body>
+<div class="b" id="box">
+  <div class="e">🏡</div>
+  <h1>大米家的 Coding 乐园</h1>
+  <div class="d">这是大米家的私人乐园。<br>请用<b>群主发给你的专属链接</b>进入。<br>没有链接?找群主(大米)要一个。</div>
+  <div class="sp">一家人一起聊天、一起写东西的地方</div>
+</div>
+<script>
+var t=new URLSearchParams(location.search).get('t');
+if(t){
+  document.getElementById('box').innerHTML='<div class="e">🏡</div><h1>大米家的 Coding 乐园</h1><div class="go"><span class="dot"></span> 正在进入乐园…</div>';
+  location.replace('http://8.163.42.57:8080/enter?t='+encodeURIComponent(t));
+}
+</script>
+</body>
+</html>
